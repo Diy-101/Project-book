@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;  
+}
+
+a {
+    text-decoration: none;
+    color: #322C2B;
+}
+
+.head {
+    background-color: #E4C59E;
+    height: 75px;
+    padding: 1em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.head :first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.partl {
+    list-style: none;
+    font-size: 1.3em;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.partl:hover {
+    background-color: rgba(55, 55, 55, 0.171);
+}
+
+.addbook {
+    font-size: 1.5em;
+}
+
+.addbook :first-child {
+    color: #803D3B;
+}
+
+.main {
+    max-width: 800px;
+    margin: 0 auto;
+    
+}
+
+.main > :first-child {
+    padding: 0.5em;
+    font-size: 2rem;
+}
+
+.books {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 2em 1em;
+}
+
+.book {
+    color: #322C2B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFF5E0;
+    padding: 1em;
+    height: 30vh;
+    border-radius: 0.5em;
+    box-shadow: 1px 23px 15px rgba(0, 0, 0, 0.05);
+}
+
+.book > p {
+    font-size: 1.5em;
+    margin-top: auto;
+}
+.img {
+    width: 100%;
+    height: 200px;
+    border-bottom: solid 2px black;
+}
+.cover {
+    width: 100%;
+    height: 200px;
+    object-fit: scale-down;
+}
+
+#plus {
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: none;
+    font-size: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#plus > p {
+    margin: 0;
+}
+
+#plus:hover {
+    background-color: rgba(127, 127, 127, 0.15);
+}
+
