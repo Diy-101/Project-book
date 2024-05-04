@@ -11,7 +11,7 @@
       <div class="head">
         <ul>
           <li class="partl"><a href="/">Home</a></li>
-          <li class="partl addbook"><a href="">+ New Book</a></li>
+          <button class="headAdd">+ New Book</button>
           <li class="partl rightpart"><a href="">Profile</a></li>
         </ul>
       </div>
@@ -60,7 +60,7 @@
           </div>
           <div class="form-example">
             <label for="pages">Количество страниц </label>
-            <input type="text" name="pages" id="pages" required />
+            <input type="text" name="pages" id="pages" pattern="[0-9]*" required />
           </div>
           <div class="form-example">
             <legend>Состояние</legend>
@@ -70,14 +70,14 @@
                   type="radio"
                   id="state"
                   name="drone"
-                  value="0"
+                  value="1"
                   checked
                   required
                 />
                 <label for="state">Нечитаю</label>
               </div>
               <div>
-                <input type="radio" id="huey" name="drone" value="1" />
+                <input type="radio" id="huey" name="drone" value="0" />
                 <label for="huey">Читаю</label>
               </div>
             </fieldset>
