@@ -1,127 +1,156 @@
-const modalBack = document.querySelector(".modal-back");
-const modalActive = document.querySelector(".modal-active");
-const plus = document.querySelector("#plus");
-const cross = document.querySelector(".cross");
-const form = document.querySelector(".form");
-const btn = document.querySelector("#btn");
-const books = document.querySelector(".books");
-const headAdd = document.querySelector(".headAdd");
-let booksArray = document.querySelectorAll(`.book`);
-const myLibrary = {};
-let k = 0;
-let states = document.querySelectorAll(`.stateButton`);
-
-function clear(e) {
-  e.target.elements.url.value = "";
-  e.target.elements.author.value = "";
-  e.target.elements.title.value = "";
-  e.target.elements.pages.value = "";
-  e.target.elements.state.value = "";
-}
-
-function addBook(data) {
-  const newBook = document.createElement("div");
-  newBook.className = "book";
-  books.insertBefore(newBook, plus);
-
-  const newImg = document.createElement("img");
-  newImg.className = "cover";
-  newImg.src = `${data.url}`;
-  newBook.appendChild(newImg);
-
-  const info = document.createElement(`div`);
-  info.className = "info";
-  newBook.appendChild(info);
-
-  const state = document.createElement(`div`);
-  state.className = "state";
-  info.appendChild(state);
-
-  const stateText = document.createElement(`p`);
-  stateText.textContent = `Status`;
-  state.appendChild(stateText);
-
-  const stateButton = document.createElement(`button`);
-  stateButton.className = "stateButton";
-  if (data.state === 1) {
-    stateButton.style.backgroundColor = `green`;
-  }
-  state.appendChild(stateButton);
-
-  const title = document.createElement("p");
-  title.textContent = `${data.title}`;
-  title.className = `title`;
-  info.appendChild(title);
-
-  const deleteBook = document.createElement(`button`);
-  deleteBook.className = `deleteButton`;
-  deleteBook.textContent = `Delete`;
-  info.appendChild(deleteBook);
-
-  newBook.setAttribute(`data`, `${k++}`);
-  return;
-}
-
-function add() {
-  modalBack.style.display = "block";
-  modalActive.style.display = "block";
-}
-
-function close() {
-  modalBack.style.display = "none";
-  modalActive.style.display = "none";
-}
-
-plus.addEventListener("click", add);
-cross.addEventListener("click", close);
-
-headAdd.addEventListener("click", add);
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const dataBook = {
-    id: k,
-    url: e.target.elements.url.value,
-    author: e.target.elements.author.value,
-    title: e.target.elements.title.value,
-    pages: e.target.elements.pages.value,
-    state: parseInt(e.target.elements.state.value),
-  };
-
-  myLibrary[k] = dataBook;
-  addBook(dataBook);
-
+class Varibles {
+  radio = document.querySelector(".radioread")
+  modalBack = document.querySelector(".modal-back");
+  modalActive = document.querySelector(".modal-active");
+  plus = document.querySelector("#plus");
+  cross = document.querySelector(".cross");
+  form = document.querySelector(".form");
+  btn = document.querySelector("#btn");
+  books = document.querySelector(".books");
+  headAdd = document.querySelector(".headAdd");
+  booksArray = document.querySelectorAll(`.book`);
+  myLibrary = {};
+  k = 0;
   states = document.querySelectorAll(`.stateButton`);
-  deletes = document.querySelectorAll(`.deleteButton`);
+}
 
-  states.forEach((item) => {
-    item.onclick = () => {
-      const parent = item.parentElement;
-      const info = parent.parentElement;
-      const book = info.parentElement;
-      const bookobj = myLibrary[book.getAttribute(`data`)];
+const varibles = new Varibles();
 
-      if (item.style.background === "green") {
-        item.style.background = `white`;
-        bookobj.state = 0;
-      } else {
-        item.style.background = "green";
-        bookobj.state = 1;
-      }
+class FunctionsForBooks {
+
+  createElementOwn(element, nameOfClass="", parent, text="") {
+    const part = document.createElement(element);
+
+    if (nameOfClass) 
+      part.className = nameOfClass;
+
+    if (parent === varibles.books) {
+      varibles.books.insertBefore(part, varibles.plus);
+    } else {
+      parent.appendChild(part);
+    }
+
+    if (text) {
+      part.textContent = text;
+    }
+
+
+    return part;
+  }
+
+  addBook(data) {
+    varibles.myLibrary[varibles.k] = data;
+
+    const newBook = this.createElementOwn("div", "book", varibles.books);
+
+    const newImg = this.createElementOwn("img", "cover", newBook);
+    newImg.src = `${data.url}`;
+
+    const info = this.createElementOwn("div", "info", newBook);
+    
+    const state = this.createElementOwn("div", "state", info);
+    
+    const stateText = this.createElementOwn("p", "", state, "Status");
+    
+    const stateButton = this.createElementOwn("button", "stateButton", state);
+
+    if (data.state === 1) {
+      stateButton.style.backgroundColor = `green`;
+    }
+    
+    const title = this.createElementOwn("p", "title", info, `${data.title}`);
+    
+    const deleteBook = this.createElementOwn("button", "deleteButton", info, "Delete");
+  
+    newBook.setAttribute(`data`, `${varibles.k++}`);
+    return;
+  }
+}
+
+
+
+class InteractWithForm extends FunctionsForBooks {
+
+  add() {
+    varibles.modalBack.style.display = "block";
+    varibles.modalActive.style.display = "block";
+  }
+
+  close() {
+    varibles.modalBack.style.display = "none";
+    varibles.modalActive.style.display = "none";
+  }
+
+  clear(e) {
+    e.target.elements.url.value = "";
+    e.target.elements.author.value = "";
+    e.target.elements.title.value = "";
+    e.target.elements.pages.value = "";
+    e.target.elements.state.value = "";
+  }
+  
+  submition(e) {
+    e.preventDefault();
+    const dataBook = this.createData(e);
+    console.log(dataBook)
+    this.addBook(dataBook);
+    this.buttons();
+    this.clear(e);
+    this.close();
+  }
+
+  createData(e) {
+    console.log(e)
+    const dataBook = {
+      id: varibles.k,
+      url: e.target.elements.url.value,
+      author: e.target.elements.author.value,
+      title: e.target.elements.title.value,
+      pages: e.target.elements.pages.value,
+      state: parseInt(e.target.elements.state.value),
     };
-  });
 
-  deletes.forEach((item) => {
-    item.onclick = () => {
-      const parent = item.parentElement;
-      const book = parent.parentElement;
-      delete myLibrary[book.getAttribute(`data`)];
-      console.log(book);
-      books.removeChild(book);
-    };
-  });
+    return dataBook;
+  }
 
-  clear(e);
-  close();
-});
+  buttons() {
+    const states = document.querySelectorAll(`.stateButton`);
+    const deletes = document.querySelectorAll(`.deleteButton`);
+
+    states.forEach((item) => {
+      item.onclick = () => {
+        const parent = item.parentElement;
+        const info = parent.parentElement;
+        const book = info.parentElement;
+        const bookObj = varibles.myLibrary[book.getAttribute(`data`)];
+  
+        if (item.style.background === "green") {
+          item.style.background = `white`;
+          bookObj.state = 0;
+        } else {
+          item.style.background = "green";
+          bookObj.state = 1;
+        }
+      };
+    });
+  
+    deletes.forEach((item) => {
+      item.onclick = () => {
+        const parent = item.parentElement;
+        const book = parent.parentElement;
+        delete varibles.myLibrary[book.getAttribute(`data`)];
+        console.log(book);
+        varibles.books.removeChild(book);
+      };
+    });
+  }
+}
+
+const interaction = new InteractWithForm();
+
+varibles.plus.addEventListener("click", interaction.add);
+varibles.cross.addEventListener("click", interaction.close);
+
+varibles.headAdd.addEventListener("click", interaction.add);
+
+varibles.form.addEventListener("submit", (e) => interaction.submition(e));
